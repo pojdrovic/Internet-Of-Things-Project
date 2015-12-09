@@ -412,6 +412,32 @@ int main(void)
 }
 
 
+
+//  USCI A interrupt handler
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=USCIAB0RX_VECTOR
+__interrupt void USCI0RX_ISR(void)
+#elif defined(__GNUC__)
+void __attribute__ ((interrupt(USCIAB0RX_VECTOR))) USCI0RX_ISR (void)
+#else
+#error Compiler not supported!
+#endif
+{
+	Rx_Data = UCA0RXBUF;					// Assign received byte to Rx_Data
+	__bic_SR_register_on_exit(LPM0_bits);	// Wake-up CPU
+}
+
+#pragma vector=TIMER0_A0_VECTOR     // Timer0 A0 interrupt service routine
+   __interrupt void Timer0_A0 (void) {
+
+	   count++;
+	   if (count == 10)
+		   {
+		   P1OUT ^= BIT0 + BIT6;					// P1.0 Toggle (Red LED)
+		   count =0;
+		   }
+}
+
 /*
 void temperature_controller(unsigned int temperature) {
 
