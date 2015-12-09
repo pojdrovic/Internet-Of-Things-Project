@@ -34,6 +34,7 @@
 volatile unsigned char state = 'I'; // Fan on or off. I is off, O is on. 
 volatile unsigned char mode = 'C'; // States for heating and cooling. C is cool, H is heat
 volatile unsigned char weather = 'S'; // Weather which is sent to the MSP
+volatile unsigned char temperature = 0x46;
 
 
 // Definitions
